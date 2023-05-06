@@ -1,36 +1,32 @@
 import requests
+from bs4 import BeautifulSoup as BS
+import urllib3
 from time import sleep
 
-def autorithation():
-    session = requests.Session()
+#Авторизация на сайте
 
-    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.68'
+user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.68'
 
-    header = {
-        'user-agent': user_agent
-    }
-    # login = input('Enter email: ')
-    # passwd = input('Enter password: ')
-    payload = {
-        'user_login': 'nehnaev@gmail.com',
-        'password': 'ThooVur4dave'
-    }
+header = {
+    'user-agent': user_agent
+}
 
-    url = 'https://siriust.ru'
+login = input("Введите логин: ")
+password = input("Введите пароль: ")
+data = {
+    "return_url": "index.php",
+    "redirect_url": "index.php",
+    "user_login": login,
+    "password":	password,
+    "dispatch[auth.login]": ""
+}
 
-    # datas['user_login'] = login
-    # datas['password'] = passwd
-    response = session.post(url, params=payload, headers=header)
-    sleep(20)
-    f = open('result.html', 'w', encoding='utf-8')
-    f.write(response.text)
-    f.close()
-    # profile_info = "https://siriust.ru/profiles-update/"
-    # profile_responce = session.get(profile_info, headers=header)
-    # f = open('result.text', 'w+', encoding='utf-8')
-    # f.write(profile_responce.text)
-    # f.close()
+url = 'https://siriust.ru'
 
+s = requests.session()
 
-if __name__ == "__main__":
-    autorithation()
+response = s.get(url, headers=header)
+sleep(2)
+auth = s.post(url, data=data, headers=header, allow_redirects=True)
+test = s.get('https://siriust.ru/profiles-update/', headers=header)
+print(test.text)

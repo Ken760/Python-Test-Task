@@ -1,4 +1,4 @@
-import requests as rqs
+import requests
 from bs4 import BeautifulSoup as BS
 import urllib3
 from time import sleep
@@ -21,7 +21,7 @@ data = {
 
 url = 'https://siriust.ru'
 
-s = rqs.session()
+s = requests.session()
 
 response = s.get(url, headers=header)
 sleep(2)
