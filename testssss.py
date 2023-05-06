@@ -26,7 +26,9 @@ s = rqs.session()
 response = s.get(url, headers=header)
 sleep(2)
 auth = s.post(url, data=data, headers=header, allow_redirects=True)
-print(auth.text)
+test = s.get('https://siriust.ru/profiles-update/', headers=header)
+print(test.text)
+# print(auth.text)
 
 # link = 'https://siriust.ru/profiles-update/'# Код страницы, который нужно спрасить
 #
