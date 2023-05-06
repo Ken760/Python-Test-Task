@@ -1,6 +1,7 @@
 import requests as rqs
 from bs4 import BeautifulSoup as BS
 import urllib3
+from time import sleep
 
 #Авторизация на сайте
 
@@ -22,8 +23,10 @@ url = 'https://siriust.ru'
 
 s = rqs.session()
 
-response = s.post(url, data=data, headers=header, allow_redirects=True).text
-print(response)
+response = s.get(url, headers=header)
+sleep(2)
+auth = s.post(url, data=data, headers=header, allow_redirects=True)
+print(auth.text)
 
 # link = 'https://siriust.ru/profiles-update/'# Код страницы, который нужно спрасить
 #
