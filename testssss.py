@@ -26,15 +26,32 @@ response = s.get(url, headers=header)
 sleep(1)
 auth = s.post(url, data=data, headers=header, allow_redirects=True)
 profile_page = s.get('https://siriust.ru/profiles-update/', headers=header)
-
-soup = BeautifulSoup(profile_page.text, "lxml")
+favorites = s.get('https://siriust.ru/wishlist/', headers=header)
+# soup = BeautifulSoup(profile_page.text, "lxml")
 # print(soup)
-for c in soup.find_all('input'):
-    pass
-# last_name = soup.find('input', class_="ty-input-text cm-focus")
+# for c in soup.find_all('input'):
+#     print(c)
+    # print(first_name)
+# list = []
+# email = soup.find_all('input', class_="ty-input-text cm-focus")[0]['value']
+# print(email)
+# first_name = soup.find_all('input', class_="ty-input-text cm-focus")[1]['value']
+# print(first_name)
+#
+# last_name = soup.find_all('input', class_="ty-input-text")[12]['value']
+# print(last_name)
+# city = soup.find_all('input', class_="ty-input-text")[15]['value']
+# print(city)
+# result = list.append([email, first_name, last_name, city])
+# print(result)
 # first_name = soup.find_all('input')
 # print(first_name)
 
 # print(email)
 
 # print(city)
+
+
+favorite = BeautifulSoup(favorites.text, "lxml")
+for i in favorite.find_all('a', class_='product-title'):
+    print(i)
