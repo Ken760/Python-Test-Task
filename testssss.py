@@ -22,11 +22,11 @@ url = 'https://siriust.ru'
 
 s = requests.session()
 
-response = s.get(url, headers=header)
-sleep(1)
-auth = s.post(url, data=data, headers=header, allow_redirects=True)
-profile_page = s.get('https://siriust.ru/profiles-update/', headers=header)
-favorites = s.get('https://siriust.ru/wishlist/', headers=header)
+# response = s.get(url, headers=header)
+# sleep(1)
+# auth = s.post(url, data=data, headers=header, allow_redirects=True)
+# profile_page = s.get('https://siriust.ru/profiles-update/', headers=header)
+# favorites = s.get('https://siriust.ru/wishlist/', headers=header)
 # soup = BeautifulSoup(profile_page.text, "lxml")
 # print(soup)
 # for c in soup.find_all('input'):
@@ -52,6 +52,13 @@ favorites = s.get('https://siriust.ru/wishlist/', headers=header)
 # print(city)
 
 
-favorite = BeautifulSoup(favorites.text, "lxml")
-for i in favorite.find_all('a', class_='product-title'):
-    print(i)
+# favorite = BeautifulSoup(favorites.text, "lxml")
+# for i in favorite.find_all('a', class_='product-title'):
+#     print(i)
+
+
+tests = s.get('https://siriust.ru/zapchasti-dlya-apple-i-psp/zapchasti-dlya-apple-iphone/displei-original-dlya-iphone/displey-dlya-iphone-xtachskrin-chernyy-org-ref/', headers=header)
+test = BeautifulSoup(tests.text, "lxml")
+
+price = test.find('h1', class_='ty-product-block-title')
+price(price)
