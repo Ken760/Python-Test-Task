@@ -13,25 +13,65 @@ header = {
 s = requests.session()
 
 args = []
-tests = s.get('https://siriust.ru/zapchasti-dlya-apple-i-psp/zapchasti-dlya-apple-iphone/displei-original-dlya-iphone/displey-dlya-iphone-11tachskrin-servisnyy-orig-100/', headers=header)
+tests = s.get('https://siriust.ru/zapchasti-dlya-noutbukov/zaryadnye-ustroystva/azu-dlya-noutbuka-acer-19v-1.58a-30w-konnektor-5.5-x-1.7/', headers=header)
+# tests = s.get('https://siriust.ru/zapchasti-dlya-apple-i-psp/zapchasti-dlya-apple-iphone/displei-original-dlya-iphone/displey-dlya-iphone-11tachskrin-servisnyy-orig-100/', headers=header)
+
 test = BeautifulSoup(tests.text, "lxml")
 # print(test.text)
 
-title = test.find('h1', class_='ty-product-block-title').text.strip()
-print(title)
-price = test.find('span', class_='ty-price-num').text.strip()
-print(price)
-# for i in test.find()
+# title = test.find('h1', class_='ty-product-block-title').text.strip()
+# print(title)
+# price = test.find('span', class_='ty-price-num').text.strip()
+# print(price)
+# # for i in test.find()
+
 reviews_count = test.find('a', class_='ty-discussion__review-a cm-external-click')
+
 
 # print(reviews.text)
 # star = test.find_all('i', class_='ty-stars__icon ty-icon-star')
-# print(star)
-reviews = []
+# for i in enumerate(star):
+#     print(i)
+#
 
-for i in test.find_all('div', class_='ty-discussion-post__message'):
-    reviews.append(i.text.strip())
-    print(reviews)
+# print(star)
+
+# #
+
+# # for review in reviewss:
+# #     if review is not None:
+# #         reviews.append(review.text)
+# # print(reviews)
+# #
+all_reviews = []
+count_reviews = 0
+
+reviews = test.find_all('div',  class_='ty-discussion-post__message')
+for count, review in enumerate(reviews, start=1):
+    all_reviews.append(review.text)
+
+print(all_reviews)
+# print(count)
+# print(reviews)
+# all_reviews = []
+# count_reviews = 0
+
+# print(i + 1)
+    # reviews.append(news_item.text)
+# print(all_reviews)
 
 # shop = test.find_all('div', 'ty-product-feature')
 # print(shop)
+
+# count = 0
+# shops = test.find_all('div', class_='ty-product-feature__value')
+# for i in shops:
+#     test = i.text.strip().replace('—  ', '')
+#     if test != 'отсутствует' and test != '':
+#         count += 1
+# print(count)
+    # print(test)
+    # print(test)
+
+    # test = i.find('&nbsp')
+    # print(test)
