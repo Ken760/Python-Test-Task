@@ -24,12 +24,13 @@ data = {
 url = 'https://siriust.ru'
 s = requests.session()
 
+favourite_list = None
 
 def auth():
     auth = s.post(url, data=data, headers=header, allow_redirects=True)
     return auth
 
-#
+
 def profile_page():
     auth()
     profile_page = s.get('https://siriust.ru/profiles-update/', headers=header)
@@ -60,7 +61,7 @@ def favourite_page():
         favorite_links.append(link['href'])
 
     for links in favorite_links:
-        lst = []
+        favourite_list = []
         count = 0
         all_reviews = []
         all_ratings = ''
@@ -104,8 +105,8 @@ def favourite_page():
 
         # Запись в базу данных
 
-        lst.append((title, retail_price, wholesale_price, all_ratings, count, str(text), star_reviews))
-        return lst
+        favourite_list.append((title, retail_price, wholesale_price, all_ratings, count, str(text), star_reviews))
+        print(favourite_list)
 
         # conn = sqlite3.connect("mydata.db")
         # cursor = conn.cursor()
@@ -122,8 +123,8 @@ def add_db():
     conn = sqlite3.connect("mydata.db")
     cursor = conn.cursor()
 
-    cursor.executemany("INSERT INTO siriust VALUES (?, ?, ?, ?)", profile_info)
-    cursor.executemany("INSERT INTO favorites VALUES (?, ?, ?, ?, ?, ?, ?)", lst)
+    # cursor.executemany("INSERT INTO siriust VALUES (?, ?, ?, ?)", profile_info)
+    cursor.executemany("INSERT INTO favorites VALUES (?, ?, ?, ?, ?, ?, ?)", favourite_list)
     conn.commit()
     conn.close()
 
