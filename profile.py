@@ -30,30 +30,27 @@ def auth():
     return auth
 
 #
-# def profile_page():
-#     auth()
-#     profile_page = s.get('https://siriust.ru/profiles-update/', headers=header)
-#     soup = BeautifulSoup(profile_page.text, "lxml")
-#     profile_info = []
-#     email = soup.find_all('input', class_="ty-input-text cm-focus")[0]['value']
-#     first_name = soup.find_all('input', class_="ty-input-text cm-focus")[1]['value']
-#     last_name = soup.find_all('input', class_="ty-input-text")[12]['value']
-#
-#     city = soup.find_all('input', class_="ty-input-text")[15]['value']
-#     profile_info.append((email, first_name, last_name, city))
-    #
+def profile_page():
+    auth()
+    profile_page = s.get('https://siriust.ru/profiles-update/', headers=header)
+    soup = BeautifulSoup(profile_page.text, "lxml")
+    profile_info = []
+    email = soup.find_all('input', class_="ty-input-text cm-focus")[0]['value']
+    first_name = soup.find_all('input', class_="ty-input-text cm-focus")[1]['value']
+    last_name = soup.find_all('input', class_="ty-input-text")[12]['value']
+
+    city = soup.find_all('input', class_="ty-input-text")[15]['value']
+    profile_info.append((email, first_name, last_name, city))
+    return profile_info
     # conn = sqlite3.connect("mydata.db")
     # cursor = conn.cursor()
     #
     # cursor.executemany("INSERT INTO siriust VALUES (?, ?, ?, ?)", profile_info)
-    #
+    # cursor.executemany("INSERT INTO siriust VALUES (?, ?, ?, ?)", profile_info)
     # conn.commit()
     # conn.close()
 
-# def insert_db():
-#     profile_page()
 
-#
 def favourite_page():
     auth()
     favorites = s.get('https://siriust.ru/wishlist/', headers=header)
@@ -86,9 +83,8 @@ def favourite_page():
         reviews = soup.find_all('div', class_='ty-discussion-post__message')
         for review in reviews:
             all_reviews.append(review.text)
-        for texts in all_reviews:
+        for text_reviews in all_reviews:
             text = all_reviews
-        # print(str(text))
         star_reviews = ''
         number_of_reviews = soup.find('a', 'ty-discussion__review-a cm-external-click')
         if number_of_reviews is None:
@@ -105,18 +101,32 @@ def favourite_page():
         #     'Отзывы': all_reviews,
         #     'Количество отзывов': text_reviews
         # })
+
+        # Запись в базу данных
+
         lst.append((title, retail_price, wholesale_price, all_ratings, count, str(text), star_reviews))
-        # lst.append(str(text))
-        print(lst)
-#
-        conn = sqlite3.connect("mydata.db")
-        cursor = conn.cursor()
-#
-        cursor.executemany("INSERT INTO favorites VALUES (?, ?, ?, ?, ?, ?, ?)", lst)
-#
-        conn.commit()
-        conn.close()
-# #
+        return lst
+
+        # conn = sqlite3.connect("mydata.db")
+        # cursor = conn.cursor()
+        #
+        # cursor.executemany("INSERT INTO favorites VALUES (?, ?, ?, ?, ?, ?, ?)", lst)
+        #
+        # conn.commit()
+        # conn.close()
+
+    
+def add_db():
+    profile_page()
+    favourite_page()
+    conn = sqlite3.connect("mydata.db")
+    cursor = conn.cursor()
+
+    cursor.executemany("INSERT INTO siriust VALUES (?, ?, ?, ?)", profile_info)
+    cursor.executemany("INSERT INTO favorites VALUES (?, ?, ?, ?, ?, ?, ?)", lst)
+    conn.commit()
+    conn.close()
 
 # profile_page()
-favourite_page()
+# favourite_page()
+add_db()
