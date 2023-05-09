@@ -51,9 +51,9 @@ for links in favorite_links:
     retail_price = soup.find_all('span', class_='ty-price-num')[0].text.strip().replace(u'\xa0', u' ')
     wholesale_price = soup.find_all('span', class_='ty-price-num')[2].text.strip().replace(u'\xa0', u' ')
     shops = soup.find_all('div', class_='ty-product-feature__value')
-    for i in shops:
-        test = i.text.strip().replace('—  ', '')
-        if test != 'отсутствует' and test != '':
+    for shop in shops:
+        available = shop.text.strip().replace('—  ', '')
+        if available != 'отсутствует' and available != '':
             count += 1
 
     reviews = soup.find_all('div', class_='ty-discussion-post__message')
@@ -66,7 +66,6 @@ for links in favorite_links:
         text_reviews = 0
     else:
         text_reviews = int(number_of_reviews.text[0])
-
 
     lst.append({
         'title': title,

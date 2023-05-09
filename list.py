@@ -29,8 +29,11 @@ test = BeautifulSoup(tests.text, "lxml")
 
 
 
-raiting = test.find_all('span', class_='ty-nowrap ty-stars')
-print(raiting)
+rating = test.find_all('div', class_='ty-product-block__rating')
+for star in rating:
+    ratings = star.find_all('i', class_='ty-stars__icon ty-icon-star')
+    print(len(test))
+
 # for star in raiting:
 #     test = star.find('i', class_='ty-stars__icon ty-icon-star')
 #     print(test)
