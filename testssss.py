@@ -32,9 +32,8 @@ favorites = s.get('https://siriust.ru/wishlist/', headers=header)
 
 favorite_links = []
 
-all_reviews = []
-count = 0
-lst = []
+# all_reviews = []
+#
 
 
 favorite = BeautifulSoup(favorites.text, "lxml")
@@ -43,33 +42,39 @@ for link in favorite.find_all('a', class_='product-title'):
 
 # print(favovite_link)
 for links in favorite_links:
+    lst = []
+    count = 0
+    all_reviews = []
     all_favorite_links = s.get(links)
-
     soup = BeautifulSoup(all_favorite_links.text, 'lxml')
     title = soup.find('h1', class_='ty-product-block-title').text
     retail_price = soup.find_all('span', class_='ty-price-num')[0].text.strip().replace(u'\xa0', u' ')
     wholesale_price = soup.find_all('span', class_='ty-price-num')[2].text.strip().replace(u'\xa0', u' ')
-    # shops = soup.find_all('div', class_='ty-product-feature__value')
-    # for i in shops:
-    #     test = i.text.strip().replace('—  ', '')
-    #     if test != 'отсутствует' and test != '':
-    #         count += 1
-    #
-    # reviews_count = soup.find('a', class_='ty-discussion__review-a cm-external-click')
+    shops = soup.find_all('div', class_='ty-product-feature__value')
+    for i in shops:
+        test = i.text.strip().replace('—  ', '')
+        if test != 'отсутствует' and test != '':
+            count += 1
 
-    # all_reviews = []
-    # count_reviews = 0
-    #
-    # reviews = soup.find_all('div', class_='ty-discussion-post__message')
-    # for count, review in enumerate(reviews, start=1):
-    #     all_reviews.append(review.text)
+    reviews = soup.find_all('div', class_='ty-discussion-post__message')
+    for count, review in enumerate(reviews, start=1):
+        all_reviews.append(review.text)
+
+    text_reviews = ''
+    number_of_reviews = soup.find('a', 'ty-discussion__review-a cm-external-click')
+    if number_of_reviews is None:
+        text_reviews = 0
+    else:
+        text_reviews = int(number_of_reviews.text[0])
+
 
     lst.append({
         'title': title,
         'розничная цена': retail_price,
         'оптовая цена': wholesale_price,
-        # 'количество магазинов, в которых есть товар': count,
-        # 'Отзывы': all_reviews
+        'количество магазинов, в которых есть товар': count,
+        'Отзывы': all_reviews,
+        'Количество отзывов': text_reviews
     })
     print(lst)
     # reviews = soup.find_all('div', class_='ty-discussion-post__message')
