@@ -1,6 +1,4 @@
 import requests
-import urllib3
-from time import sleep
 from bs4 import BeautifulSoup
 import sqlite3
 
@@ -28,13 +26,15 @@ favourite_list = []
 profile_info = []
 
 
-def auth():
+def get_auth():
+    """Функция авторизации"""
     auth = s.post(url, data=data, headers=header, allow_redirects=True)
     return auth
 
 
-def profile_page():
-    auth()
+def get_profile_page():
+    """Функция получения данных из профиля"""
+    get_auth()
     profile_page = s.get('https://siriust.ru/profiles-update/', headers=header)
     soup = BeautifulSoup(profile_page.text, "lxml")
     email = soup.find_all('input', class_="ty-input-text cm-focus")[0]['value']
@@ -46,8 +46,9 @@ def profile_page():
     return profile_info
 
 
-def favourite_page():
-    auth()
+def get_favourite_page():
+    """Функция получения данных из избранных товаров"""
+    get_auth()
     favorites = s.get('https://siriust.ru/wishlist/', headers=header)
     favorite_links = []
     favorite = BeautifulSoup(favorites.text, "lxml")
@@ -89,8 +90,9 @@ def favourite_page():
 
 
 def add_db():
-    profile_page()
-    favourite_page()
+    """Функция добавления данных в базу"""
+    get_profile_page()
+    get_favourite_page()
     conn = sqlite3.connect("mydata1.db")
     cursor = conn.cursor()
 
