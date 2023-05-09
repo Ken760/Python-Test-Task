@@ -96,7 +96,7 @@ def add_db():
     conn = sqlite3.connect("mydata1.db")
     cursor = conn.cursor()
 
-    cursor.executemany("INSERT INTO siriust VALUES (?, ?, ?, ?)", profile_info)
+    cursor.executemany("INSERT INTO profile VALUES (?, ?, ?, ?)", profile_info)
     cursor.executemany("INSERT INTO favorites VALUES (?, ?, ?, ?, ?, ?, ?)", favourite_list)
     conn.commit()
     conn.close()
