@@ -14,8 +14,8 @@ password = input('Введите пароль: ')
 data = {
     "return_url": "index.php",
     "redirect_url": "index.php",
-    "user_login": 'nehnaev@gmail.com',
-    "password": 'ThooVur4dave',
+    "user_login": login,
+    "password": password,
     "dispatch[auth.login]": ""
 }
 
