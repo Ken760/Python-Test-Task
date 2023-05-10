@@ -78,9 +78,9 @@ auth = s.post(url, data=data, headers=header, allow_redirects=True)
 #     reviews_text = ''
 #     all_favorite_links = s.get(links)
 #     favourite = html.fromstring(all_favorite_links.text, 'lxml')
-favourite_page = s.get('https://siriust.ru/zapchasti-dlya-apple-i-psp/zapchasti-dlya-apple-iphone/displei-original-dlya-iphone/displey-dlya-iphone-11tachskrin-servisnyy-orig-100/')
+# favourite_page = s.get('https://siriust.ru/zapchasti-dlya-apple-i-psp/zapchasti-dlya-apple-iphone/displei-original-dlya-iphone/displey-dlya-iphone-11tachskrin-servisnyy-orig-100/')
 #
-# # favourite = html.fromstring(favourite_page.text)
+# favourite = html.fromstring(favourite_page.text)
 #     title = favourite.xpath('//*[@id="tygh_main_container"]/div[3]/div/div[1]/div/div/div[1]/div/h1/bdi')[0].text
 #     print(title)
 #     retail_price = favourite.cssselect('span.ty-price-num')[0].text
@@ -109,14 +109,12 @@ favourite_page = s.get('https://siriust.ru/zapchasti-dlya-apple-i-psp/zapchasti-
 # item_td = favourite.cssselect("span.ty-price-num")[0].text
 # print(item_td)
 
-
-# first_name = tree.xpath('//*[@id="elm_15"]/@value')
-# last_name = tree.xpath('//*[@id="elm_17"]/@value')
-# city = tree.xpath('//*[@id="elm_23"]/@value')
-
-# shops = favourite.cssselect('div.ty-product-feature__value')
-# for shop in shops:
-#     print(shop.text)
-
+count = 0
+shops = favourite.xpath('//*[@id="content_features"]/div/div/div/text()')
+for shop in shops:
+    available = shop.replace('—  ', '')
+    if available != 'отсутствует' and available != '':
+        count += 1
+print(count)
 
 
