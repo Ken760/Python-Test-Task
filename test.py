@@ -72,40 +72,34 @@ favorite = html.fromstring(favorites.text)
 for link in favorite.xpath('//a[@class="product-title"]/@href'):
     favorite_links.append(link)
 for links in favorite_links:
-    count = 0
+    available_counter = 0
     all_reviews = []
     all_ratings = ''
     reviews_text = ''
     all_favorite_links = s.get(links)
     favourite = html.fromstring(all_favorite_links.text, 'lxml')
-
-    title = favourite.xpath('//*[@id="tygh_main_container"]/div[3]/div/div[1]/div/div/div[1]/div/h1/bdi')[0].text
-    print(title)
-    retail_price = favourite.cssselect('span.ty-price-num')[0].text
-    wholesale_price = favourite.cssselect('span.ty-price-num')[2].text
-    print(retail_price)
-    print(wholesale_price)
-
+    title = favourite.xpath('//*[@id="tygh_main_container"]/div[3]/div/div[1]/div/div/div[1]/div/h1/bdi')[0].text.strip()
+    retail_price = favourite.cssselect('span.ty-price-num')[0].text.strip().replace(u'\xa0', u' ')
+    wholesale_price = favourite.cssselect('span.ty-price-num')[2].text.strip().replace(u'\xa0', u' ')
     rating = favourite.xpath('//*[@id="tygh_main_container"]/div[3]/div/div[1]/div/div/div[1]/div/div[3]/div/div[1]/div[1]')
     for star in rating:
         ratings = star.xpath('//*[@id="average_rating_product"]/span/a/i')
         all_ratings = len(ratings)
-    print(all_ratings)
     reviews = favourite.cssselect('div.ty-discussion-post__message')
     for review in reviews:
         all_reviews.append(review.text)
-    print(*all_reviews)
     number_of_reviews = favourite.xpath('//*[@id="average_rating_product"]/a[1]')
     if not number_of_reviews:
         star_reviews = 0
     else:
         star_reviews = int(number_of_reviews[0].text[0])
-    print(star_reviews)
     shops = favourite.xpath('//*[@id="content_features"]/div/div/div/text()')
     for shop in shops:
         available = shop.strip().replace('—  ', '')
         if available != 'отсутствует' and available != '':
-            count += 1
-    print(count)
+            available_counter += 1
+    favourite_list.append(
+        (title, retail_price, wholesale_price, all_ratings, available_counter, str(all_reviews), star_reviews))
 
+print(favourite_list)
 
